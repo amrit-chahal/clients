@@ -30,6 +30,7 @@ import { AttachmentsComponent } from "../../../../organizations/vault/attachment
 import { CiphersComponent } from "../../../../organizations/vault/ciphers.component";
 import { CollectionsComponent } from "../../../../organizations/vault/collections.component";
 import { OrganizationVaultFilterComponent } from "../../../vault-filter/organization-vault-filter.component";
+import { NewItemComponent } from "../../components/new-item.component";
 import { VaultService } from "../../vault.service";
 
 const BroadcasterSubscriptionId = "OrgVaultComponent";
@@ -41,6 +42,7 @@ const BroadcasterSubscriptionId = "OrgVaultComponent";
 export class OrganizationVaultComponent implements OnInit, OnDestroy {
   @ViewChild("vaultFilter", { static: true })
   vaultFilterComponent: OrganizationVaultFilterComponent;
+  @ViewChild(NewItemComponent) newItemComponent: NewItemComponent;
   @ViewChild(CiphersComponent, { static: true }) ciphersComponent: CiphersComponent;
   @ViewChild("attachments", { read: ViewContainerRef, static: true })
   attachmentsModalRef: ViewContainerRef;
@@ -52,8 +54,6 @@ export class OrganizationVaultComponent implements OnInit, OnDestroy {
   eventsModalRef: ViewContainerRef;
 
   organization: Organization;
-  collectionId: string = null;
-  type: CipherType = null;
   trashCleanupWarning: string = null;
   activeFilter: VaultFilter = new VaultFilter();
 
@@ -225,17 +225,7 @@ export class OrganizationVaultComponent implements OnInit, OnDestroy {
   }
 
   async addCipher() {
-    const component = await this.editCipher(null);
-    component.organizationId = this.organization.id;
-    component.type = this.type;
-    if (this.organization.canEditAnyCollection) {
-      component.collections = this.vaultFilterComponent.collections.fullList.filter(
-        (c) => !c.readOnly
-      );
-    }
-    if (this.collectionId != null) {
-      component.collectionIds = [this.collectionId];
-    }
+    this.newItemComponent.addItem();
   }
 
   async editCipher(cipher: CipherView) {

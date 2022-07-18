@@ -365,6 +365,19 @@
   "select": {
     "message": "Select"
   },
+  "new": {
+    "message": "New",
+    "description": "For adding new items"
+  },
+  "item": {
+    "message": "Item"
+  },
+  "collection": {
+    "message": "Collection"
+  },
+  "newItem": {
+    "message": "New Item"
+  },
   "addItem": {
     "message": "Add Item"
   },

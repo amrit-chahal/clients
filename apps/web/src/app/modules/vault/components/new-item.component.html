@@ -1,0 +1,32 @@
+<div class="dropdown mr-2" appListDropdown *ngIf="this.organization.canCreateNewCollections">
+  <button
+    class="btn-sm dropdown-toggle"
+    bitButton
+    buttonType="primary"
+    type="button"
+    id="newButton"
+    data-toggle="dropdown"
+    aria-haspopup="true"
+    aria-expanded="false"
+    appA11yTitle="{{ 'new' | i18n }}"
+  >
+    <i class="bwi" aria-hidden="true"></i>{{ "new" | i18n }}
+  </button>
+  <div class="dropdown-menu dropdown-menu-left tw-mt-2" aria-labelledby="newButton">
+    <button class="dropdown-item" (click)="addItem()" appStopClick>
+      <i class="bwi bwi-fw bwi-globe" aria-hidden="true"></i>
+      {{ "item" | i18n }}
+    </button>
+    <button class="dropdown-item" appStopClick>
+      <i class="bwi bwi-fw bwi-collection" aria-hidden="true"></i>
+      {{ "collection" | i18n }}
+    </button>
+  </div>
+</div>
+<div *ngIf="!this.organization.canCreateNewCollections">
+  <button class="btn-sm" bitButton buttonType="primary" type="button" (click)="addItem()">
+    <i class="bwi bwi-plus bwi-fw" aria-hidden="true"></i>{{ "newItem" | i18n }}
+  </button>
+</div>
+
+<ng-template #cipherAddEdit></ng-template>

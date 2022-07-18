@@ -36,14 +36,14 @@
             [organization]="organization"
           >
           </app-vault-bulk-actions>
-          <button
-            type="button"
-            class="btn btn-outline-primary btn-sm ml-auto"
-            (click)="addCipher()"
-            *ngIf="!deleted"
-          >
-            <i class="bwi bwi-plus bwi-fw" aria-hidden="true"></i>{{ "addItem" | i18n }}
-          </button>
+          <app-vault-new-item
+            [ciphersComponent]="ciphersComponent"
+            [organization]="organization"
+            [selectedType]="activeFilter.cipherType"
+            [collections]="vaultFilterComponent.collections.fullList"
+            [selectedCollectionId]="activeFilter.selectedCollectionId"
+            *ngIf="activeFilter.status !== 'trash'"
+          ></app-vault-new-item>
         </div>
       </div>
       <app-callout type="warning" *ngIf="deleted" icon="bwi bwi-exclamation-triangle">
