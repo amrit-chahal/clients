@@ -3,14 +3,14 @@ import { RouterModule, Routes } from "@angular/router";
 
 import { AuthGuard } from "@bitwarden/angular/guards/auth.guard";
 
-import { BreachReportComponent } from "./breach-report.component";
-import { ExposedPasswordsReportComponent } from "./exposed-passwords-report.component";
-import { InactiveTwoFactorReportComponent } from "./inactive-two-factor-report.component";
-import { ReportListComponent } from "./report-list.component";
+import { BreachReportComponent } from "./cipher-reports/breach-report.component";
+import { ExposedPasswordsReportComponent } from "./cipher-reports/exposed-passwords-report.component";
+import { InactiveTwoFactorReportComponent } from "./cipher-reports/inactive-two-factor-report.component";
+import { ReusedPasswordsReportComponent } from "./cipher-reports/reused-passwords-report.component";
+import { UnsecuredWebsitesReportComponent } from "./cipher-reports/unsecured-websites-report.component";
+import { WeakPasswordsReportComponent } from "./cipher-reports/weak-passwords-report.component";
+import { ReportListComponent } from "./list/report-list.component";
 import { ReportsComponent } from "./reports.component";
-import { ReusedPasswordsReportComponent } from "./reused-passwords-report.component";
-import { UnsecuredWebsitesReportComponent } from "./unsecured-websites-report.component";
-import { WeakPasswordsReportComponent } from "./weak-passwords-report.component";
 
 const routes: Routes = [
   {
