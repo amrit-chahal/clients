@@ -18,7 +18,7 @@ export class NodeEnvSecureStorageService implements AbstractStorageService {
       return null;
     }
     const obj = await this.decrypt(value);
-    return obj as any;
+    return obj as unknown as T;
   }
 
   async has(key: string): Promise<boolean> {

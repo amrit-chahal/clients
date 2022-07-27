@@ -166,10 +166,10 @@ export default class MainBackground {
   private tabsBackground: TabsBackground;
   private webRequestBackground: WebRequestBackground;
 
-  private sidebarAction: any;
+  private sidebarAction: OperaSidebarAction;
   private buildingContextMenu: boolean;
-  private menuOptionsLoaded: any[] = [];
-  private syncTimeout: any;
+  private menuOptionsLoaded: string[] = [];
+  private syncTimeout: string | number | NodeJS.Timer;
   private isSafari: boolean;
   private nativeMessagingBackground: NativeMessagingBackground;
 
@@ -322,7 +322,7 @@ export default class MainBackground {
     const that = this;
     const backgroundMessagingService = new (class extends MessagingServiceAbstraction {
       // AuthService should send the messages to the background not popup.
-      send = (subscriber: string, arg: any = {}) => {
+      send = (subscriber: string, arg: unknown = {}) => {
         const message = Object.assign({}, { command: subscriber }, arg);
         that.runtimeBackground.processMessage(message, that, null);
       };
@@ -446,7 +446,8 @@ export default class MainBackground {
       ? null
       : typeof opr !== "undefined" && opr.sidebarAction
       ? opr.sidebarAction
-      : (window as any).chrome.sidebarAction;
+      : // If we get here we are hoping to get a sidebarAction for Firefox which is modeled after Operas
+        (window.chrome as unknown as { sidebarAction: OperaSidebarAction }).sidebarAction;
 
     // Background
     this.runtimeBackground = new RuntimeBackground(
@@ -637,12 +638,16 @@ export default class MainBackground {
     await this.reloadProcess();
   }
 
-  async collectPageDetailsForContentScript(tab: any, sender: string, frameId: number = null) {
+  async collectPageDetailsForContentScript(
+    tab: chrome.tabs.Tab,
+    sender: string,
+    frameId: number = null
+  ) {
     if (tab == null || !tab.id) {
       return;
     }
 
-    const options: any = {};
+    const options: chrome.tabs.MessageSendOptions = {};
     if (frameId != null) {
       options.frameId = frameId;
     }
@@ -682,7 +687,7 @@ export default class MainBackground {
       return;
     }
 
-    const getStorage = (): Promise<any> =>
+    const getStorage = (): Promise<Record<string, unknown>> =>
       new Promise((resolve) => {
         chrome.storage.local.get(null, (o: any) => resolve(o));
       });
@@ -777,7 +782,7 @@ export default class MainBackground {
     this.buildingContextMenu = false;
   }
 
-  private async contextMenuReady(tab: any, contextMenuEnabled: boolean) {
+  private async contextMenuReady(tab: chrome.tabs.Tab, contextMenuEnabled: boolean) {
     await this.loadMenuAndUpdateBadge(tab.url, tab.id, contextMenuEnabled);
     this.onUpdatedRan = this.onReplacedRan = false;
   }
@@ -849,7 +854,7 @@ export default class MainBackground {
     }
   }
 
-  private async loadLoginContextMenuOptions(cipher: any) {
+  private async loadLoginContextMenuOptions(cipher: CipherView) {
     if (
       cipher == null ||
       cipher.type !== CipherType.Login ||
@@ -869,7 +874,7 @@ export default class MainBackground {
     await this.loadContextMenuOptions(noLoginsMessage, "noop", null);
   }
 
-  private async loadContextMenuOptions(title: string, idSuffix: string, cipher: any) {
+  private async loadContextMenuOptions(title: string, idSuffix: string, cipher: CipherView) {
     if (
       !chrome.contextMenus ||
       this.menuOptionsLoaded.indexOf(idSuffix) > -1 ||
@@ -967,7 +972,7 @@ export default class MainBackground {
     });
   }
 
-  private contextMenusCreate(options: any) {
+  private contextMenusCreate(options: chrome.contextMenus.CreateProperties) {
     return new Promise<void>((resolve) => {
       chrome.contextMenus.create(options, () => {
         resolve();
@@ -978,7 +983,11 @@ export default class MainBackground {
     });
   }
 
-  private async actionSetIcon(theAction: any, suffix: string, windowId?: number): Promise<any> {
+  private async actionSetIcon(
+    theAction: OperaSidebarAction | typeof chrome.browserAction,
+    suffix: string,
+    windowId?: number
+  ): Promise<void> {
     if (!theAction || !theAction.setIcon) {
       return;
     }
@@ -1004,7 +1013,7 @@ export default class MainBackground {
     }
   }
 
-  private actionSetBadgeBackgroundColor(action: any) {
+  private actionSetBadgeBackgroundColor(action: OperaSidebarAction | typeof chrome.browserAction) {
     if (action && action.setBadgeBackgroundColor) {
       action.setBadgeBackgroundColor({ color: "#294e5f" });
     }

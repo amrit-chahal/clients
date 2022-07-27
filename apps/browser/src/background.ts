@@ -1,6 +1,12 @@
 import MainBackground from "./background/main.background";
 
-const bitwardenMain = ((window as any).bitwardenMain = new MainBackground());
+declare global {
+  interface Window {
+    bitwardenMain: MainBackground;
+  }
+}
+
+const bitwardenMain = (window.bitwardenMain = new MainBackground());
 bitwardenMain.bootstrap().then(() => {
   // Finished bootstrapping
 });

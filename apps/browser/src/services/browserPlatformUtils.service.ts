@@ -9,6 +9,13 @@ import { StateService } from "../services/abstractions/state.service";
 
 const DialogPromiseExpiration = 600000; // 10 minutes
 
+declare global {
+  interface Window {
+    opr: Opera;
+    opera: unknown;
+  }
+}
+
 export default class BrowserPlatformUtilsService implements PlatformUtilsService {
   private showDialogResolves = new Map<number, { resolve: (value: boolean) => void; date: Date }>();
   private passwordDialogResolves = new Map<
@@ -35,8 +42,8 @@ export default class BrowserPlatformUtilsService implements PlatformUtilsService
     ) {
       this.deviceCache = DeviceType.FirefoxExtension;
     } else if (
-      (!!(window as any).opr && !!opr.addons) ||
-      !!(window as any).opera ||
+      (!!window.opr && !!opr.addons) ||
+      !!window.opera ||
       navigator.userAgent.indexOf(" OPR/") >= 0
     ) {
       this.deviceCache = DeviceType.OperaExtension;
@@ -44,7 +51,7 @@ export default class BrowserPlatformUtilsService implements PlatformUtilsService
       this.deviceCache = DeviceType.EdgeExtension;
     } else if (navigator.userAgent.indexOf(" Vivaldi/") !== -1) {
       this.deviceCache = DeviceType.VivaldiExtension;
-    } else if ((window as any).chrome && navigator.userAgent.indexOf(" Chrome/") !== -1) {
+    } else if (window.chrome && navigator.userAgent.indexOf(" Chrome/") !== -1) {
       this.deviceCache = DeviceType.ChromeExtension;
     } else if (navigator.userAgent.indexOf(" Safari/") !== -1) {
       this.deviceCache = DeviceType.SafariExtension;
