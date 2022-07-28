@@ -16,7 +16,9 @@
         aria-hidden="true"
       ></i>
     </button>
-    <h3 class="filter-title">&nbsp;{{ collectionsGrouping.name | i18n }}</h3>
+    <button class="filter-button" (click)="applyAllFilter()">
+      <h3 class="filter-title">&nbsp;{{ collectionsGrouping.name | i18n }}</h3>
+    </button>
   </div>
   <ul id="collection-filters" *ngIf="!isCollapsed(collectionsGrouping)" class="filter-options">
     <ng-template #recursiveCollections let-collections>

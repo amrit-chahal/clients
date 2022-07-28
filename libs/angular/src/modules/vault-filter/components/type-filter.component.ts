@@ -28,6 +28,12 @@ export class TypeFilterComponent {
     return this.collapsedFilterNodes.has(this.typesNode.id);
   }
 
+  applyAllFilter() {
+    this.activeFilter.resetFilter();
+    this.activeFilter.allCipherTypes = true;
+    this.onFilterChange.emit(this.activeFilter);
+  }
+
   applyFilter(cipherType: CipherType) {
     this.activeFilter.resetFilter();
     this.activeFilter.cipherType = cipherType;

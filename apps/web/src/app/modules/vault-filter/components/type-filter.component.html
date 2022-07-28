@@ -15,7 +15,9 @@
       }"
     ></i>
   </button>
-  <h3>&nbsp;{{ "types" | i18n }}</h3>
+  <button class="filter-button" (click)="applyAllFilter()">
+    <h3 [ngClass]="{ active: activeFilter.allCipherTypes }">&nbsp;{{ "items" | i18n }}</h3>
+  </button>
 </div>
 <ul id="type-filters" *ngIf="!isCollapsed" class="filter-options">
   <li

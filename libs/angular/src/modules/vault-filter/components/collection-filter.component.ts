@@ -39,6 +39,12 @@ export class CollectionFilterComponent {
     return this.collapsedFilterNodes.has(node.id);
   }
 
+  applyAllFilter() {
+    this.activeFilter.resetFilter();
+    this.activeFilter.selectedCollection = true;
+    this.onFilterChange.emit(this.activeFilter);
+  }
+
   applyFilter(collection: CollectionView) {
     this.activeFilter.resetFilter();
     this.activeFilter.selectedCollection = true;

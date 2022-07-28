@@ -6,7 +6,9 @@ import { CipherStatus } from "./cipher-status.model";
 export type VaultFilterFunction = (cipher: CipherView) => boolean;
 
 export class VaultFilter {
+  allCipherTypes = false;
   cipherType?: CipherType;
+  allCollections = false;
   selectedCollection = false; // This is needed because of how the "Unassigned" collection works. It has a null id.
   selectedCollectionId?: string;
   status?: CipherStatus;
@@ -21,6 +23,8 @@ export class VaultFilter {
   }
 
   resetFilter() {
+    this.allCipherTypes = false;
+    this.allCollections = false;
     this.cipherType = null;
     this.status = null;
     this.selectedCollection = false;
@@ -45,7 +49,7 @@ export class VaultFilter {
         cipherPassesFilter = cipher.isDeleted;
       }
       if (this.cipherType != null && cipherPassesFilter) {
-        cipherPassesFilter = cipher.type === this.cipherType;
+        cipherPassesFilter = this.allCipherTypes ? true : cipher.type === this.cipherType;
       }
       if (this.selectedFolder && this.selectedFolderId == null && cipherPassesFilter) {
         cipherPassesFilter = cipher.folderId == null;
