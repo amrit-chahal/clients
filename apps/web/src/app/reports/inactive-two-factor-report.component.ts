@@ -28,7 +28,7 @@ export class InactiveTwoFactorReportComponent extends CipherReportComponent impl
     private logService: LogService,
     passwordRepromptService: PasswordRepromptService
   ) {
-    super(modalService, messagingService, true, stateService, passwordRepromptService);
+    super(messagingService, true, stateService, passwordRepromptService);
   }
 
   async ngOnInit() {

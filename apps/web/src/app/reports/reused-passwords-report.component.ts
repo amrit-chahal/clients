@@ -1,40 +1,27 @@
 import { Component, OnInit } from "@angular/core";
+import { BehaviorSubject } from "rxjs";
 
-import { ModalService } from "@bitwarden/angular/services/modal.service";
 import { CipherService } from "@bitwarden/common/abstractions/cipher.service";
-import { MessagingService } from "@bitwarden/common/abstractions/messaging.service";
-import { PasswordRepromptService } from "@bitwarden/common/abstractions/passwordReprompt.service";
-import { StateService } from "@bitwarden/common/abstractions/state.service";
 import { CipherType } from "@bitwarden/common/enums/cipherType";
 import { CipherView } from "@bitwarden/common/models/view/cipherView";
-
-import { CipherReportComponent } from "./cipher-report.component";
 
 @Component({
   selector: "app-reused-passwords-report",
   templateUrl: "reused-passwords-report.component.html",
 })
-export class ReusedPasswordsReportComponent extends CipherReportComponent implements OnInit {
+export class ReusedPasswordsReportComponent implements OnInit {
   passwordUseMap: Map<string, number>;
+  ciphers = new BehaviorSubject<CipherView[]>([]);
+  loading = false;
 
-  constructor(
-    protected cipherService: CipherService,
-    modalService: ModalService,
-    messagingService: MessagingService,
-    stateService: StateService,
-    passwordRepromptService: PasswordRepromptService
-  ) {
-    super(modalService, messagingService, true, stateService, passwordRepromptService);
-  }
+  constructor(protected cipherService: CipherService) {}
 
   async ngOnInit() {
-    if (await this.checkAccess()) {
-      await super.load();
-    }
+    await this.load();
   }
 
-  async setCiphers() {
-    const allCiphers = await this.getAllCiphers();
+  async load() {
+    const allCiphers = await this.cipherService.getAllDecrypted();
     const ciphersWithPasswords: CipherView[] = [];
     this.passwordUseMap = new Map<string, number>();
     allCiphers.forEach((c) => {
@@ -57,11 +44,8 @@ export class ReusedPasswordsReportComponent extends CipherReportComponent implem
       (c) =>
         this.passwordUseMap.has(c.login.password) && this.passwordUseMap.get(c.login.password) > 1
     );
-    this.ciphers = reusedPasswordCiphers;
-  }
-
-  protected getAllCiphers(): Promise<CipherView[]> {
-    return this.cipherService.getAllDecrypted();
+    this.ciphers.next(reusedPasswordCiphers);
+    this.loading = false;
   }
 
   protected canManageCipher(c: CipherView): boolean {

@@ -85,6 +85,7 @@ import { InactiveTwoFactorReportComponent } from "../reports/inactive-two-factor
 import { ReportCardComponent } from "../reports/report-card.component";
 import { ReportListComponent } from "../reports/report-list.component";
 import { ReportsComponent } from "../reports/reports.component";
+import { ResultListComponent } from "../reports/result-list/result-list.component";
 import { ReusedPasswordsReportComponent } from "../reports/reused-passwords-report.component";
 import { UnsecuredWebsitesReportComponent } from "../reports/unsecured-websites-report.component";
 import { WeakPasswordsReportComponent } from "../reports/weak-passwords-report.component";
@@ -173,6 +174,7 @@ import { OrganizationBadgeModule } from "./vault/modules/organization-badge/orga
     RegisterFormModule,
   ],
   declarations: [
+    ResultListComponent,
     PremiumBadgeComponent,
     AcceptEmergencyComponent,
     AcceptFamilySponsorshipComponent,
@@ -329,6 +331,7 @@ import { OrganizationBadgeModule } from "./vault/modules/organization-badge/orga
     WeakPasswordsReportComponent,
   ],
   exports: [
+    ResultListComponent,
     PremiumBadgeComponent,
     AcceptEmergencyComponent,
     AcceptOrganizationComponent,

@@ -22,7 +22,7 @@ export class UnsecuredWebsitesReportComponent extends CipherReportComponent impl
     stateService: StateService,
     passwordRepromptService: PasswordRepromptService
   ) {
-    super(modalService, messagingService, true, stateService, passwordRepromptService);
+    super(messagingService, true, stateService, passwordRepromptService);
   }
 
   async ngOnInit() {

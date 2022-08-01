@@ -26,7 +26,7 @@ export class ExposedPasswordsReportComponent extends CipherReportComponent imple
     stateService: StateService,
     passwordRepromptService: PasswordRepromptService
   ) {
-    super(modalService, messagingService, true, stateService, passwordRepromptService);
+    super(messagingService, true, stateService, passwordRepromptService);
   }
 
   ngOnInit() {
