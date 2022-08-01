@@ -45,6 +45,16 @@
         ></app-status-filter>
       </div>
       <div class="filter">
+        <app-collection-filter
+          [hide]="hideCollections"
+          [activeFilter]="activeFilter"
+          [collapsedFilterNodes]="collapsedFilterNodes"
+          [collectionNodes]="collections"
+          (onNodeCollapseStateChange)="toggleFilterNodeCollapseState($event)"
+          (onFilterChange)="applyFilter($event)"
+        ></app-collection-filter>
+      </div>
+      <div class="filter">
         <app-type-filter
           [activeFilter]="activeFilter"
           [collapsedFilterNodes]="collapsedFilterNodes"
@@ -63,16 +73,6 @@
           (onAddFolder)="addFolder()"
           (onEditFolder)="editFolder($event)"
         ></app-folder-filter>
-      </div>
-      <div class="filter">
-        <app-collection-filter
-          [hide]="hideCollections"
-          [activeFilter]="activeFilter"
-          [collapsedFilterNodes]="collapsedFilterNodes"
-          [collectionNodes]="collections"
-          (onNodeCollapseStateChange)="toggleFilterNodeCollapseState($event)"
-          (onFilterChange)="applyFilter($event)"
-        ></app-collection-filter>
       </div>
     </div>
   </div>
