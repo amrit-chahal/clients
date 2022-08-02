@@ -7,6 +7,42 @@
     [infiniteScrollDisabled]="!isPaging()"
     (scrolled)="loadMore()"
   >
+    <thead>
+      <tr>
+        <th class="table-list-checkbox">
+          <input type="checkbox" (change)="selectAll($event.target.checked)" />
+        </th>
+        <th class="table-list-icon"></th>
+        <th class="reduced-lh wrap"></th>
+        <th></th>
+        <th class="table-list-options tw-text-right">
+          <button
+            [bitMenuTriggerFor]="cipherOptions"
+            class="tw-border-none tw-bg-transparent tw-text-main"
+            type="button"
+            appA11yTitle="{{ 'options' | i18n }}"
+          >
+            <i class="bwi bwi-ellipsis-v bwi-lg" aria-hidden="true"></i>
+          </button>
+          <bit-menu #cipherOptions>
+            <ng-container>
+              <button class="dropdown-item" bitMenuItem>
+                <i class="bwi bwi-fw bwi-pencil-square" aria-hidden="true"></i>
+                {{ "editItem" | i18n }}
+              </button>
+              <button class="dropdown-item" bitMenuItem>
+                <i class="bwi bwi-fw bwi-users" aria-hidden="true"></i>
+                {{ "access" | i18n }}
+              </button>
+              <button class="dropdown-item text-danger" bitMenuItem>
+                <i class="bwi bwi-fw bwi-trash" aria-hidden="true"></i>
+                {{ "delete" | i18n }}
+              </button>
+            </ng-container>
+          </bit-menu>
+        </th>
+      </tr>
+    </thead>
     <tbody>
       <tr *ngFor="let c of filteredCiphers">
         <td (click)="checkCipher(c)" class="table-list-checkbox">

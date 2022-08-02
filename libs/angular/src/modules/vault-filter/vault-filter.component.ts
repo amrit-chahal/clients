@@ -27,7 +27,7 @@ export class VaultFilterComponent implements OnInit {
   organizations: Organization[];
   activePersonalOwnershipPolicy: boolean;
   activeSingleOrganizationPolicy: boolean;
-  collections: DynamicTreeNode<CollectionView>;
+  collections: DynamicTreeNode<CollectionView> = new DynamicTreeNode<CollectionView>();
   folders: DynamicTreeNode<FolderView>;
 
   constructor(protected vaultFilterService: VaultFilterService) {}

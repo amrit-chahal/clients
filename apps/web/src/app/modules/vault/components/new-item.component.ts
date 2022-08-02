@@ -14,7 +14,7 @@ import { AddEditComponent } from "src/app/organizations/vault/add-edit.component
   templateUrl: "new-item.component.html",
 })
 export class NewItemComponent {
-  @Input() organization: Organization;
+  @Input() organization?: Organization;
   @Input() ciphersComponent: CiphersComponent;
   @Input() selectedType: CipherType;
   @Input() collections: CollectionView[];
@@ -50,7 +50,7 @@ export class NewItemComponent {
     childComponent.organizationId = this.organization.id;
     childComponent.type = this.selectedType;
     if (this.organization.canEditAnyCollection) {
-      childComponent.collections = this.collections.filter((c) => !c.readOnly);
+      childComponent.collections = this.collections?.filter((c) => !c.readOnly);
     }
     if (this.selectedCollectionId != null) {
       childComponent.collectionIds = [this.selectedCollectionId];

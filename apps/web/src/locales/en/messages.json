@@ -387,6 +387,9 @@
   "viewItem": {
     "message": "View Item"
   },
+  "access": {
+    "message": "Access"
+  },
   "items": {
     "message": "Items"
   },

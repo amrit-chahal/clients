@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="col-9">
-      <div class="page-header d-flex">
+      <div class="d-flex">
         <h1>
           {{ "vaultItems" | i18n }}
           <small #actionSpinner [appApiAction]="ciphersComponent.actionPromise">
@@ -30,12 +30,6 @@
           </small>
         </h1>
         <div class="ml-auto d-flex">
-          <app-vault-bulk-actions
-            [ciphersComponent]="ciphersComponent"
-            [deleted]="deleted"
-            [organization]="organization"
-          >
-          </app-vault-bulk-actions>
           <app-vault-new-item
             [ciphersComponent]="ciphersComponent"
             [organization]="organization"

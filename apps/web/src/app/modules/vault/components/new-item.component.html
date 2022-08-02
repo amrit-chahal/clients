@@ -1,4 +1,4 @@
-<div class="dropdown mr-2" appListDropdown *ngIf="this.organization.canCreateNewCollections">
+<div class="dropdown mr-2" appListDropdown *ngIf="this.organization?.canCreateNewCollections">
   <button
     class="btn-sm dropdown-toggle"
     bitButton
@@ -23,7 +23,7 @@
     </button>
   </div>
 </div>
-<div *ngIf="!this.organization.canCreateNewCollections">
+<div *ngIf="!this.organization?.canCreateNewCollections">
   <button class="btn-sm" bitButton buttonType="primary" type="button" (click)="addItem()">
     <i class="bwi bwi-plus bwi-fw" aria-hidden="true"></i>{{ "newItem" | i18n }}
   </button>
