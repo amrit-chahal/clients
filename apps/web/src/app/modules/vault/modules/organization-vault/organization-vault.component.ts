@@ -27,11 +27,12 @@ import { CipherView } from "@bitwarden/common/models/view/cipherView";
 import { EntityEventsComponent } from "../../../../organizations/manage/entity-events.component";
 import { AddEditComponent } from "../../../../organizations/vault/add-edit.component";
 import { AttachmentsComponent } from "../../../../organizations/vault/attachments.component";
-import { CiphersComponent } from "../../../../organizations/vault/ciphers.component";
 import { CollectionsComponent } from "../../../../organizations/vault/collections.component";
 import { OrganizationVaultFilterComponent } from "../../../vault-filter/organization-vault-filter.component";
 import { NewItemComponent } from "../../components/new-item.component";
 import { VaultService } from "../../vault.service";
+
+import { OrganizationCiphersComponent } from "./components/organization-ciphers.component";
 
 const BroadcasterSubscriptionId = "OrgVaultComponent";
 
@@ -43,7 +44,8 @@ export class OrganizationVaultComponent implements OnInit, OnDestroy {
   @ViewChild("vaultFilter", { static: true })
   vaultFilterComponent: OrganizationVaultFilterComponent;
   @ViewChild(NewItemComponent) newItemComponent: NewItemComponent;
-  @ViewChild(CiphersComponent, { static: true }) ciphersComponent: CiphersComponent;
+  @ViewChild(OrganizationCiphersComponent, { static: true })
+  ciphersComponent: OrganizationCiphersComponent;
   @ViewChild("attachments", { read: ViewContainerRef, static: true })
   attachmentsModalRef: ViewContainerRef;
   @ViewChild("cipherAddEdit", { read: ViewContainerRef, static: true })
