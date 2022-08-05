@@ -91,7 +91,7 @@ export class CollectionService implements CollectionServiceAbstraction {
     return decryptedCollections;
   }
 
-  async getAllNested(collections: CollectionView[] = null): Promise<TreeNode<CollectionView>[]> {
+  async getAllNested(collections: CollectionView[] = null): Promise<TreeNode<CollectionView>> {
     if (collections == null) {
       collections = await this.getAllDecrypted();
     }
@@ -103,7 +103,14 @@ export class CollectionService implements CollectionServiceAbstraction {
       const parts = c.name != null ? c.name.replace(/^\/+|\/+$/g, "").split(NestingDelimiter) : [];
       ServiceUtils.nestedTraverse(nodes, 0, parts, collectionCopy, null, NestingDelimiter);
     });
-    return nodes;
+    const head = new CollectionView();
+    head.id = "-1";
+    const headNode = new TreeNode<CollectionView>(head, "Head", null);
+    nodes.forEach((n) => {
+      n.parent = head;
+      headNode.children.push(n);
+    });
+    return headNode;
   }
 
   async getNested(id: string): Promise<TreeNode<CollectionView>> {

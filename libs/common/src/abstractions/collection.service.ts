@@ -10,7 +10,7 @@ export abstract class CollectionService {
   get: (id: string) => Promise<Collection>;
   getAll: () => Promise<Collection[]>;
   getAllDecrypted: () => Promise<CollectionView[]>;
-  getAllNested: (collections?: CollectionView[]) => Promise<TreeNode<CollectionView>[]>;
+  getAllNested: (collections?: CollectionView[]) => Promise<TreeNode<CollectionView>>;
   getNested: (id: string) => Promise<TreeNode<CollectionView>>;
   upsert: (collection: CollectionData | CollectionData[]) => Promise<any>;
   replace: (collections: { [id: string]: CollectionData }) => Promise<any>;

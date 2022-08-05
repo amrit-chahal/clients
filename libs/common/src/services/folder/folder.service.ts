@@ -84,7 +84,7 @@ export class FolderService implements FolderServiceAbstraction {
     return decFolders;
   }
 
-  async getAllNested(folders?: FolderView[]): Promise<TreeNode<FolderView>[]> {
+  async getAllNested(folders?: FolderView[]): Promise<TreeNode<FolderView>> {
     folders = folders ?? (await this.getAllDecrypted());
     const nodes: TreeNode<FolderView>[] = [];
     folders.forEach((f) => {
@@ -94,7 +94,14 @@ export class FolderService implements FolderServiceAbstraction {
       const parts = f.name != null ? f.name.replace(/^\/+|\/+$/g, "").split(NestingDelimiter) : [];
       ServiceUtils.nestedTraverse(nodes, 0, parts, folderCopy, null, NestingDelimiter);
     });
-    return nodes;
+    const head = new FolderView();
+    head.id = "-1";
+    const headNode = new TreeNode<FolderView>(head, "Head", null);
+    nodes.forEach((n) => {
+      n.parent = head;
+      headNode.children.push(n);
+    });
+    return headNode;
   }
 
   async getNested(id: string): Promise<TreeNode<FolderView>> {
