@@ -50,7 +50,7 @@ export class NewItemComponent {
     childComponent.organizationId = this.organization.id;
     childComponent.type = this.selectedType;
     if (this.organization.canEditAnyCollection) {
-      childComponent.collections = this.collections?.filter((c) => !c.readOnly);
+      childComponent.collections = this.collections?.filter((c) => !c.readOnly && c.id != null);
     }
     if (this.selectedCollectionId != null) {
       childComponent.collectionIds = [this.selectedCollectionId];
