@@ -9,8 +9,8 @@ import { VaultFilter } from "../models/vault-filter.model";
 @Directive()
 export class TypeFilterComponent {
   @Input() hide = false;
+  @Input() hideFavorites = false;
   @Input() collapsedFilterNodes: Set<string>;
-  @Input() selectedCipherType: CipherType = null;
   @Input() activeFilter: VaultFilter;
 
   @Output() onNodeCollapseStateChange: EventEmitter<ITreeNodeObject> =
@@ -30,12 +30,14 @@ export class TypeFilterComponent {
 
   applyAllFilter() {
     this.activeFilter.resetFilter();
-    this.activeFilter.allCipherTypes = true;
+    this.activeFilter.selectedCollectionNode = null;
+    this.activeFilter.status = "all";
     this.onFilterChange.emit(this.activeFilter);
   }
 
   applyFilter(cipherType: CipherType) {
     this.activeFilter.resetFilter();
+    this.activeFilter.selectedCollectionNode = null;
     this.activeFilter.cipherType = cipherType;
     this.onFilterChange.emit(this.activeFilter);
   }

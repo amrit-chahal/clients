@@ -4,14 +4,13 @@ import { CipherStatus } from "../models/cipher-status.model";
 import { VaultFilter } from "../models/vault-filter.model";
 
 @Directive()
-export class StatusFilterComponent {
-  @Input() hideFavorites = false;
+export class TrashFilterComponent {
   @Input() hideTrash = false;
   @Output() onFilterChange: EventEmitter<VaultFilter> = new EventEmitter<VaultFilter>();
   @Input() activeFilter: VaultFilter;
 
   get show() {
-    return !(this.hideFavorites && this.hideTrash);
+    return !this.hideTrash;
   }
 
   applyFilter(cipherStatus: CipherStatus) {

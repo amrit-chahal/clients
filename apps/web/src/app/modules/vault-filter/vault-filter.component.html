@@ -37,25 +37,8 @@
         (onFilterChange)="applyFilter($event)"
       ></app-organization-filter>
       <div class="filter">
-        <app-status-filter
-          [hideFavorites]="hideFavorites"
-          [hideTrash]="hideTrash"
-          [activeFilter]="activeFilter"
-          (onFilterChange)="applyFilter($event)"
-        ></app-status-filter>
-      </div>
-      <div class="filter">
-        <app-collection-filter
-          [hide]="hideCollections"
-          [activeFilter]="activeFilter"
-          [collapsedFilterNodes]="collapsedFilterNodes"
-          [collectionNodes]="collections"
-          (onNodeCollapseStateChange)="toggleFilterNodeCollapseState($event)"
-          (onFilterChange)="applyFilter($event)"
-        ></app-collection-filter>
-      </div>
-      <div class="filter">
         <app-type-filter
+          [hideFavorites]="hideFavorites"
           [activeFilter]="activeFilter"
           [collapsedFilterNodes]="collapsedFilterNodes"
           (onNodeCollapseStateChange)="toggleFilterNodeCollapseState($event)"
@@ -73,6 +56,24 @@
           (onAddFolder)="addFolder()"
           (onEditFolder)="editFolder($event)"
         ></app-folder-filter>
+      </div>
+      <div class="filter">
+        <app-collection-filter
+          [hide]="hideCollections"
+          [activeFilter]="activeFilter"
+          [collapsedFilterNodes]="collapsedFilterNodes"
+          [collectionNodes]="collections"
+          (onNodeCollapseStateChange)="toggleFilterNodeCollapseState($event)"
+          (onFilterChange)="applyFilter($event)"
+        ></app-collection-filter>
+      </div>
+      <div class="filter">
+        <app-trash-filter
+          [hideTrash]="hideTrash"
+          [activeFilter]="activeFilter"
+          (onFilterChange)="applyFilter($event)"
+        >
+        </app-trash-filter>
       </div>
     </div>
   </div>
