@@ -60,8 +60,6 @@ export class OrganizationCiphersComponent extends BaseCiphersComponent {
   }
 
   async load(filter: (cipher: CipherView) => boolean = null, deleted = false) {
-    console.log("LOAD CALLED");
-    console.log(this.ciphers.length);
     this.deleted = deleted || false;
     if (this.organization.canEditAnyCollection) {
       this.accessEvents = this.organization.useEvents;
@@ -74,12 +72,9 @@ export class OrganizationCiphersComponent extends BaseCiphersComponent {
     await this.searchService.indexCiphers(this.organization.id, this.allCiphers);
     await this.applyFilter(filter);
     this.loaded = true;
-    console.log(this.ciphers);
-    this.changeDetectorRef.detectChanges();
   }
 
   async applyFilter(filter: (cipher: CipherView) => boolean = null) {
-    console.log("AAPPLY FILTER");
     if (this.organization.canViewAllCollections) {
       await super.applyFilter(filter);
     } else {
@@ -90,7 +85,6 @@ export class OrganizationCiphersComponent extends BaseCiphersComponent {
   }
 
   async search(timeout: number = null) {
-    console.log("SEARCH - from org ciphers");
     await super.search(timeout, this.allCiphers);
   }
   events(c: CipherView) {
