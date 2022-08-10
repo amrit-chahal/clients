@@ -119,6 +119,8 @@ export class OrganizationVaultComponent implements OnInit, OnDestroy {
         this.firstLoaded = true;
 
         await this.ciphersComponent.reload();
+        this.activeFilter.selectedCollectionNode = this.activeFilter.headCollectionNode;
+        await this.applyVaultFilter(this.activeFilter);
 
         if (qParams.viewEvents != null) {
           const cipher = this.ciphersComponent.ciphers.filter((c) => c.id === qParams.viewEvents);
@@ -299,7 +301,7 @@ export class OrganizationVaultComponent implements OnInit, OnDestroy {
     if (queryParams == null) {
       queryParams = {
         type: this.activeFilter.cipherType,
-        collectionId: this.activeFilter.selectedCollectionId,
+        collectionId: this.activeFilter.selectedCollectionNode?.node.id,
         deleted: this.deleted ? true : null,
       };
     }

@@ -1,4 +1,4 @@
-import { Directive, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { ChangeDetectorRef, Directive, EventEmitter, Input, OnInit, Output } from "@angular/core";
 
 import { Organization } from "@bitwarden/common/models/domain/organization";
 import { ITreeNodeObject } from "@bitwarden/common/models/domain/treeNode";
@@ -12,6 +12,7 @@ import { VaultFilterService } from "./vault-filter.service";
 @Directive()
 export class VaultFilterComponent implements OnInit {
   @Input() activeFilter: VaultFilter = new VaultFilter();
+  @Input() hideAll = false;
   @Input() hideFolders = false;
   @Input() hideCollections = false;
   @Input() hideFavorites = false;
@@ -30,7 +31,10 @@ export class VaultFilterComponent implements OnInit {
   collections: DynamicTreeNode<CollectionView> = new DynamicTreeNode<CollectionView>();
   folders: DynamicTreeNode<FolderView>;
 
-  constructor(protected vaultFilterService: VaultFilterService) {}
+  constructor(
+    protected vaultFilterService: VaultFilterService,
+    private changeDetectorRef: ChangeDetectorRef
+  ) {}
 
   get displayCollections() {
     return this.collections?.fullList != null && this.collections.fullList.length > 0;
@@ -47,6 +51,7 @@ export class VaultFilterComponent implements OnInit {
     }
     this.folders = await this.vaultFilterService.buildFolders();
     this.collections = await this.initCollections();
+    this.activeFilter.headCollectionNode = this.collections.nestedList;
     this.isLoaded = true;
   }
 
@@ -66,17 +71,21 @@ export class VaultFilterComponent implements OnInit {
 
   async applyFilter(filter: VaultFilter) {
     if (filter.refreshCollectionsAndFolders) {
-      await this.reloadCollectionsAndFolders(filter);
+      filter = await this.reloadCollectionsAndFolders(filter);
       filter = this.pruneInvalidatedFilterSelections(filter);
+      filter.refreshCollectionsAndFolders = false;
     }
     this.onFilterChange.emit(filter);
+    this.changeDetectorRef.detectChanges();
   }
 
-  async reloadCollectionsAndFolders(filter: VaultFilter) {
+  async reloadCollectionsAndFolders(filter: VaultFilter): Promise<VaultFilter> {
     this.folders = await this.vaultFilterService.buildFolders(filter.selectedOrganizationId);
     this.collections = filter.myVaultOnly
       ? null
       : await this.vaultFilterService.buildCollections(filter.selectedOrganizationId);
+    filter.headCollectionNode = this.collections?.nestedList;
+    return filter;
   }
 
   async reloadOrganizations() {
@@ -112,12 +121,11 @@ export class VaultFilterComponent implements OnInit {
   protected pruneInvalidCollectionSelection(filter: VaultFilter): VaultFilter {
     if (
       filter.myVaultOnly ||
-      (filter.selectedCollection &&
-        filter.selectedCollectionId != null &&
-        !this.collections?.hasId(filter.selectedCollectionId))
+      (filter.selectedCollectionNode?.node.id != null &&
+        !this.collections?.hasId(filter.selectedCollectionNode?.node.id))
     ) {
-      filter.selectedCollection = false;
-      filter.selectedCollectionId = null;
+      filter.selectedCollectionNode = null;
+      filter.status = "all";
     }
     return filter;
   }

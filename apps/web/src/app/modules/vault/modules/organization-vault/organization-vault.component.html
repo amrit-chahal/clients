@@ -35,7 +35,7 @@
             [organization]="organization"
             [selectedType]="activeFilter.cipherType"
             [collections]="vaultFilterComponent.collections.fullList"
-            [selectedCollectionId]="activeFilter.selectedCollectionId"
+            [selectedCollectionId]="activeFilter.selectedCollectionNode?.node.id"
             *ngIf="activeFilter.status !== 'trash'"
           ></app-vault-new-item>
         </div>
@@ -44,6 +44,7 @@
         {{ trashCleanupWarning }}
       </app-callout>
       <app-org-vault-ciphers
+        [activeFilter]="activeFilter"
         (onCipherClicked)="editCipher($event)"
         (onAttachmentsClicked)="editCipherAttachments($event)"
         (onAddCipher)="addCipher()"

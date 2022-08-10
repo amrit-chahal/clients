@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, Output } from "@angular/core";
 
 import { CiphersComponent as BaseCiphersComponent } from "@bitwarden/angular/components/ciphers.component";
+import { VaultFilter } from "@bitwarden/angular/modules/vault-filter/models/vault-filter.model";
 import { CipherService } from "@bitwarden/common/abstractions/cipher.service";
 import { EventService } from "@bitwarden/common/abstractions/event.service";
 import { I18nService } from "@bitwarden/common/abstractions/i18n.service";
@@ -26,6 +27,7 @@ const MaxCheckedCount = 500;
 })
 export class CiphersComponent extends BaseCiphersComponent implements OnDestroy {
   @Input() showAddNew = true;
+  @Input() activeFilter: VaultFilter;
   @Output() onAttachmentsClicked = new EventEmitter<CipherView>();
   @Output() onShareClicked = new EventEmitter<CipherView>();
   @Output() onCollectionsClicked = new EventEmitter<CipherView>();

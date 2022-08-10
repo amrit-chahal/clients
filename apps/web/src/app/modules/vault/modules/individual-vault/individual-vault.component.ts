@@ -28,12 +28,12 @@ import { CipherView } from "@bitwarden/common/models/view/cipherView";
 import { UpdateKeyComponent } from "../../../../settings/update-key.component";
 import { AddEditComponent } from "../../../../vault/add-edit.component";
 import { AttachmentsComponent } from "../../../../vault/attachments.component";
-import { CiphersComponent } from "../../../../vault/ciphers.component";
 import { CollectionsComponent } from "../../../../vault/collections.component";
 import { FolderAddEditComponent } from "../../../../vault/folder-add-edit.component";
 import { ShareComponent } from "../../../../vault/share.component";
 import { VaultFilterComponent } from "../../../vault-filter/vault-filter.component";
 import { VaultFilterService } from "../../../vault-filter/vault-filter.service";
+import { CiphersComponent } from "../../components/ciphers.component";
 import { VaultService } from "../../vault.service";
 
 const BroadcasterSubscriptionId = "VaultComponent";
@@ -155,6 +155,9 @@ export class IndividualVaultComponent implements OnInit, OnDestroy {
         });
       });
     });
+    this.activeFilter.selectedCollectionNode = null;
+    this.activeFilter.status = "all";
+    this.applyVaultFilter(this.activeFilter);
   }
 
   get isShowingCards() {
@@ -298,13 +301,13 @@ export class IndividualVaultComponent implements OnInit, OnDestroy {
     const component = await this.editCipher(null);
     component.type = this.activeFilter.cipherType;
     component.folderId = this.folderId === "none" ? null : this.folderId;
-    if (this.activeFilter.selectedCollectionId != null) {
+    if (this.activeFilter.selectedCollectionNode?.node.id != null) {
       const collection = this.filterComponent.collections.fullList.filter(
-        (c) => c.id === this.activeFilter.selectedCollectionId
+        (c) => c.id === this.activeFilter.selectedCollectionNode?.node.id
       );
       if (collection.length > 0) {
         component.organizationId = collection[0].organizationId;
-        component.collectionIds = [this.activeFilter.selectedCollectionId];
+        component.collectionIds = [this.activeFilter.selectedCollectionNode?.node.id];
       }
     }
     if (this.activeFilter.selectedFolderId && this.activeFilter.selectedFolder) {
@@ -370,7 +373,7 @@ export class IndividualVaultComponent implements OnInit, OnDestroy {
         favorites: this.activeFilter.status === "favorites" ? true : null,
         type: this.activeFilter.cipherType,
         folderId: this.activeFilter.selectedFolderId,
-        collectionId: this.activeFilter.selectedCollectionId,
+        collectionId: this.activeFilter.selectedCollectionNode?.node.id,
         deleted: this.activeFilter.status === "trash" ? true : null,
       };
     }

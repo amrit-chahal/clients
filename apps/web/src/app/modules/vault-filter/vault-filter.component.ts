@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from "@angular/core";
+import { ChangeDetectorRef, Component, EventEmitter, Output } from "@angular/core";
 
 import { VaultFilterComponent as BaseVaultFilterComponent } from "@bitwarden/angular/modules/vault-filter/vault-filter.component";
 
@@ -14,10 +14,13 @@ export class VaultFilterComponent extends BaseVaultFilterComponent {
   searchPlaceholder: string;
   searchText = "";
 
-  constructor(protected vaultFilterService: VaultFilterService) {
+  constructor(
+    protected vaultFilterService: VaultFilterService,
+    changeDetectorRef: ChangeDetectorRef
+  ) {
     // This empty constructor is required to provide the web vaultFilterService subclass to super()
     // TODO: refactor this to use proper dependency injection
-    super(vaultFilterService);
+    super(vaultFilterService, changeDetectorRef);
   }
 
   async ngOnInit() {

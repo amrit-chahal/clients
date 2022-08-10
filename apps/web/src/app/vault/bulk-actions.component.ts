@@ -7,11 +7,12 @@ import { PlatformUtilsService } from "@bitwarden/common/abstractions/platformUti
 import { CipherRepromptType } from "@bitwarden/common/enums/cipherRepromptType";
 import { Organization } from "@bitwarden/common/models/domain/organization";
 
+import { CiphersComponent } from "../modules/vault/components/ciphers.component";
+
 import { BulkDeleteComponent } from "./bulk-delete.component";
 import { BulkMoveComponent } from "./bulk-move.component";
 import { BulkRestoreComponent } from "./bulk-restore.component";
 import { BulkShareComponent } from "./bulk-share.component";
-import { CiphersComponent } from "./ciphers.component";
 
 @Component({
   selector: "app-vault-bulk-actions",

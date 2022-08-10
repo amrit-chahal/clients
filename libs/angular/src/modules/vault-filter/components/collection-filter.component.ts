@@ -1,6 +1,6 @@
 import { Directive, EventEmitter, Input, Output } from "@angular/core";
 
-import { ITreeNodeObject } from "@bitwarden/common/models/domain/treeNode";
+import { ITreeNodeObject, TreeNode } from "@bitwarden/common/models/domain/treeNode";
 import { CollectionView } from "@bitwarden/common/models/view/collectionView";
 
 import { DynamicTreeNode } from "../models/dynamic-tree-node.model";
@@ -28,7 +28,7 @@ export class CollectionFilterComponent {
   }
 
   get nestedCollections() {
-    return this.collectionNodes?.nestedList;
+    return this.collectionNodes?.nestedList.children;
   }
 
   get show() {
@@ -41,14 +41,13 @@ export class CollectionFilterComponent {
 
   applyAllFilter() {
     this.activeFilter.resetFilter();
-    this.activeFilter.selectedCollection = true;
+    this.activeFilter.selectedCollectionNode = this.activeFilter.headCollectionNode;
     this.onFilterChange.emit(this.activeFilter);
   }
 
-  applyFilter(collection: CollectionView) {
+  applyFilter(collection: TreeNode<CollectionView>) {
     this.activeFilter.resetFilter();
-    this.activeFilter.selectedCollection = true;
-    this.activeFilter.selectedCollectionId = collection.id;
+    this.activeFilter.selectedCollectionNode = collection;
     this.onFilterChange.emit(this.activeFilter);
   }
 

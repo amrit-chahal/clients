@@ -17,7 +17,16 @@
       ></i>
     </button>
     <button class="filter-button" (click)="applyAllFilter()">
-      <h3 class="filter-title">&nbsp;{{ collectionsGrouping.name | i18n }}</h3>
+      <h3
+        [ngClass]="{
+          active:
+            activeFilter.selectedCollectionNode?.node.id === '-1' &&
+            activeFilter.cipherType == null &&
+            activeFilter.status == null
+        }"
+      >
+        &nbsp;{{ collectionsGrouping.name | i18n }}
+      </h3>
     </button>
   </div>
   <ul id="collection-filters" *ngIf="!isCollapsed(collectionsGrouping)" class="filter-options">
@@ -25,7 +34,9 @@
       <li
         *ngFor="let c of collections"
         [ngClass]="{
-          active: c.node.id === activeFilter.selectedCollectionId && activeFilter.selectedCollection
+          active:
+            c.node.id === activeFilter.selectedCollectionNode?.node.id &&
+            activeFilter.showCollections
         }"
         class="filter-option"
       >
@@ -47,7 +58,7 @@
               aria-hidden="true"
             ></i>
           </button>
-          <button class="filter-button" (click)="applyFilter(c.node)">
+          <button class="filter-button" (click)="applyFilter(c)">
             <i
               *ngIf="c.children.length === 0"
               class="bwi bwi-collection bwi-fw"

@@ -35,6 +35,13 @@ export class TypeFilterComponent {
     this.onFilterChange.emit(this.activeFilter);
   }
 
+  applyFavoriteFilter() {
+    this.activeFilter.resetFilter();
+    this.activeFilter.selectedCollectionNode = null;
+    this.activeFilter.status = "favorites";
+    this.onFilterChange.emit(this.activeFilter);
+  }
+
   applyFilter(cipherType: CipherType) {
     this.activeFilter.resetFilter();
     this.activeFilter.selectedCollectionNode = null;

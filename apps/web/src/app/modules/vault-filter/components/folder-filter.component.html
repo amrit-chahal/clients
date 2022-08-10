@@ -26,9 +26,9 @@
     </button>
   </div>
   <ul id="folder-filters" *ngIf="!isCollapsed(foldersGrouping)" class="filter-options">
-    <ng-template #recursiveFolders let-folders>
+    <ng-template #recursiveFolders let-folder>
       <li
-        *ngFor="let f of folders"
+        *ngFor="let f of folder.children"
         [ngClass]="{
           active: f.node.id === activeFilter.selectedFolderId && activeFilter.selectedFolder
         }"
@@ -70,7 +70,7 @@
           class="nested-filter-options"
           *ngIf="f.children.length && !isCollapsed(f.node)"
         >
-          <ng-container *ngTemplateOutlet="recursiveFolders; context: { $implicit: f.children }">
+          <ng-container *ngTemplateOutlet="recursiveFolders; context: { $implicit: f }">
           </ng-container>
         </ul>
       </li>
