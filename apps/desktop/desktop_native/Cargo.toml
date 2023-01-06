@@ -15,7 +15,7 @@ anyhow = "1.0"
 napi = {version = "2", features = ["async"]}
 napi-derive = "2"
 scopeguard = "1.1.0"
-tokio = {version = "1.17.0", features = ["full"]}
+tokio = {version = "1.18.4", features = ["full"]}
 
 [build-dependencies]
 napi-build = "1"
